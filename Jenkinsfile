@@ -49,25 +49,40 @@ pipeline {
                 '''
             }
         }
-// This stage for playwright based end to end test 
-          stage('E2E') {
+
+         stage('Deploy') {
             agent {
                 docker {
-                    // docker image of playright
-                    image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
+                    image 'node:18-alpine'
                     reuseNode true
                 }
             }
-
             steps {
                 sh '''
-                    npm install serve
-                    node_modules/.bin/serve -s build &
-                    sleep 10
-                    npx playwright test
+                    npm install netlify-cli
+                    node_modules/.bin/netlify --version
                 '''
             }
         }
+// This stage for playwright based end to end test 
+        //   stage('E2E') {
+        //     agent {
+        //         docker {
+        //             // docker image of playright
+        //             image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
+        //             reuseNode true
+        //         }
+        //     }
+
+        //     steps {
+        //         sh '''
+        //             npm install serve
+        //             node_modules/.bin/serve -s build &
+        //             sleep 10
+        //             npx playwright test
+        //         '''
+        //     }
+        // }
     }
 // For generating Junit test report
     post {
