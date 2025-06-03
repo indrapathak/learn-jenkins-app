@@ -57,6 +57,10 @@ pipeline {
                     reuseNode true
                 }
             }
+             environment {
+                HOME = "${WORKSPACE}"
+                NPM_CONFIG_CACHE = "${WORKSPACE}/.npm-cache"
+            }
             steps {
                 sh '''
                     npm install netlify-cli@20.1.1
