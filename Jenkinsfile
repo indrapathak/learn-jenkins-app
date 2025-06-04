@@ -50,23 +50,26 @@ pipeline {
             }
         }
 
-         stage('Deploy') {
+        stage('Deploy') {
             agent {
                 docker {
                     image 'node:18-alpine'
-                    reuseNode true
+                    reuseNode trues
                 }
             }
-             environment {
+            environment {
                 HOME = "${WORKSPACE}"
                 NPM_CONFIG_CACHE = "${WORKSPACE}/.npm-cache"
+                NETLIFY_AUTH_TOKEN = credentials('NETLIFY_AUTH_TOKEN')
             }
             steps {
                 sh '''
-                   npm install -g netlify-cli
+                npm install netlify-cli --save-dev
+                npx netlify deploy --auth $NETLIFY_AUTH_TOKEN --prod --dir=build
                 '''
             }
-        }
+}
+
 // This stage for playwright based end to end test 
         //   stage('E2E') {
         //     agent {
