@@ -2,15 +2,14 @@ pipeline {
     agent any
     
     options {
-        // This will clean workspace before each build
         skipDefaultCheckout(true)
     }
 
     stages {
         stage('Checkout') {
             steps {
-                cleanWs() // Clean workspace
-                checkout scm // Checkout code
+                cleanWs()
+                checkout scm
             }
         }
         
@@ -38,8 +37,13 @@ pipeline {
             agent {
                 docker {
                     image 'node:18-alpine'
+                    args '-u 130:138'  // Add this line
                     reuseNode true
                 }
+            }
+            environment {
+                HOME = "${WORKSPACE}"
+                NPM_CONFIG_CACHE = "${WORKSPACE}/.npm-cache"
             }
             steps {
                 sh '''
@@ -53,8 +57,13 @@ pipeline {
             agent {
                 docker {
                     image 'node:18-alpine'
+                    args '-u 130:138'  // Add this line
                     reuseNode true
                 }
+            }
+            environment {
+                HOME = "${WORKSPACE}"
+                NPM_CONFIG_CACHE = "${WORKSPACE}/.npm-cache"
             }
             steps {
                 sh '''
