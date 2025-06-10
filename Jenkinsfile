@@ -12,6 +12,20 @@ pipeline {
                 checkout scm
             }
         }
+
+        stage('AWS') {
+            agent {
+                docker {
+                    image 'amazon/aws-cli'
+                }
+            }
+            steps {
+                sh '''
+                    aws --version
+                '''
+            }
+        }
+
         
         stage('Build') {
             agent {
