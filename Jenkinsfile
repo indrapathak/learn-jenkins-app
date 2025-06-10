@@ -28,6 +28,7 @@ pipeline {
             steps {
                 sh '''
                     npm install
+                    npm install netlify-cli
                     npm run build
                 '''
             }
@@ -53,23 +54,23 @@ pipeline {
             }
         }
 
-        stage('Deploy') {
-            agent {
-                docker {
-                    image 'node:18-alpine'
-                    reuseNode true
-                }
-            }
-            environment {
-                HOME = "${WORKSPACE}"
-                NPM_CONFIG_CACHE = "${WORKSPACE}/.npm-cache"
-            }
-            steps {
-                sh '''
-                    npm install netlify-cli
-                    node_modules/.bin/netlify --version
-                '''
-            }
-        }
+        // stage('Deploy') {
+        //     agent {
+        //         docker {
+        //             image 'node:18-alpine'
+        //             reuseNode true
+        //         }
+        //     }
+        //     environment {
+        //         HOME = "${WORKSPACE}"
+        //         NPM_CONFIG_CACHE = "${WORKSPACE}/.npm-cache"
+        //     }
+        //     steps {
+        //         sh '''
+        //             npm install netlify-cli
+        //             node_modules/.bin/netlify --version
+        //         '''
+        //     }
+        // }
     } 
 }
