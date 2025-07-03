@@ -2,7 +2,6 @@ import logo from './logo.svg';
 import './App.css';
 
 
-// Just addng a commend to trigger automatic build in push
 function App() {
   return (
     <div className="App">
